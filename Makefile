@@ -4,11 +4,11 @@ PYTHON := python3
 VENV := .venv
 BIN := $(VENV)/bin
 PIP := $(BIN)/pip
-APP := fly-in.py
+APP := main.py
 SRC := .
 
 install:
-	$(PYTHON) -m venv $(venv)
+	$(PYTHON) -m venv $(VENV)
 	$(PIP) install --upgrade pip
 	$(PIP) install -r requirements.txt
 
@@ -17,6 +17,11 @@ run:
 
 debug:
 	$(BIN)/python -m pdb $(APP) $(CONFIG)
+
+clean:
+	rm -rf .pytest_cache .mypy_cache
+	find . -type f -name "*.pyc" -delete
+	find . -type d -name "__pycache__" -prune -exec rm -rf {} +
 
 lint:
 	$(BIN)/flake8 $(SRC) --exclude $(VENV)
